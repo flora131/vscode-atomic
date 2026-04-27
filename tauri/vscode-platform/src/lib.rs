@@ -19,13 +19,10 @@ pub mod debug;
 pub mod editor;
 pub mod files;
 pub mod instantiation;
-pub mod lifecycle;
-pub mod nls;
 pub mod notebook;
-pub mod quick_input;
 pub mod registry;
 pub mod scm;
-pub mod search;
+pub mod storage;
 pub mod terminal;
 pub mod webview;
 
