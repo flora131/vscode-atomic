@@ -1,0 +1,26 @@
+[workspace]
+resolver = "2"
+members = [
+    "tauri-app",
+    "vscode-base",
+    "vscode-platform",
+    "vscode-ipc",
+    "vscode-extension-host",
+    "vscode-server",
+]
+
+[workspace.dependencies]
+tokio       = { version = "1.38", features = ["full"] }
+serde       = { version = "1.0", features = ["derive"] }
+serde_json  = "1.0"
+anyhow      = "1.0"
+thiserror   = "1.0"
+tracing     = "0.1"
+async-trait = "0.1"
+
+# Internal crates
+vscode-base           = { path = "vscode-base" }
+vscode-platform       = { path = "vscode-platform" }
+vscode-ipc            = { path = "vscode-ipc" }
+vscode-extension-host = { path = "vscode-extension-host" }
+vscode-server         = { path = "vscode-server" }

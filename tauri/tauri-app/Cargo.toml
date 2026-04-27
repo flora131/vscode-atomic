@@ -1,0 +1,27 @@
+[package]
+name    = "tauri-app"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "tauri-app"
+path = "src/main.rs"
+
+[dependencies]
+vscode-base           = { workspace = true }
+vscode-platform       = { workspace = true }
+vscode-ipc            = { workspace = true }
+vscode-extension-host = { workspace = true }
+vscode-server         = { workspace = true }
+tokio                 = { workspace = true }
+serde                 = { workspace = true }
+serde_json            = { workspace = true }
+anyhow                = { workspace = true }
+thiserror             = { workspace = true }
+tracing               = { workspace = true }
+async-trait           = { workspace = true }
+tauri = { version = "2" }
+tauri-plugin-shell = "2"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
