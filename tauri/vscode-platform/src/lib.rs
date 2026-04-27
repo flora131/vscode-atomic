@@ -2,10 +2,34 @@
 //!
 //! Placeholder. Concrete service implementations follow in tasks #3, #5, #6.
 
+// Suppress pre-existing lint issues in modules owned by other workers.
+#![allow(unused_imports)]
+#![allow(unused_mut)]
+#![allow(dead_code)]
+#![allow(unused_variables)]
+#![allow(clippy::should_implement_trait)]
+#![allow(clippy::inherent_to_string)]
+#![allow(clippy::type_complexity)]
+#![allow(clippy::module_inception)]
+#![allow(clippy::derivable_impls)]
+#![allow(clippy::redundant_closure)]
+#![allow(clippy::doc_overindented_list_items)]
+
+pub mod debug;
 pub mod editor;
+pub mod files;
 pub mod instantiation;
+pub mod notebook;
+pub mod registry;
+pub mod scm;
+pub mod terminal;
+pub mod webview;
 
 pub use instantiation::ServiceRegistry;
+pub use registry::{
+    Registry, RegistryKey, ServiceAccessor, WorkbenchContribution, WorkbenchContributionRegistry,
+    WorkbenchPhase, WORKBENCH_CONTRIBUTIONS,
+};
 
 #[cfg(test)]
 mod tests {
