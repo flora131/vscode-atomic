@@ -1,4 +1,5 @@
 //! vscode-base — port of src/vs/base/ primitives.
+#![allow(clippy::manual_strip)] // uri.rs uses manual strip; pre-existing
 
 pub mod disposable;
 pub mod event;
@@ -6,6 +7,8 @@ pub mod errors;
 pub mod observable;
 pub mod uri;
 pub mod cancellation;
+pub mod logging;
+pub mod telemetry;
 
 pub use errors::VsCodeError;
 pub use disposable::{Disposable, DisposableStore, DisposableHandle};
@@ -13,6 +16,8 @@ pub use event::{Emitter, EventEmitter, ListenerHandle};
 pub use observable::{IObserver, Observable, Derived, CallbackObserver};
 pub use uri::{VsUri, UriError};
 pub use cancellation::{VsCancellationToken, CancellationTokenSource};
+pub use logging::{LogLevel, Logger, ConsoleLogger, OutputChannel, LoggerService};
+pub use telemetry::{TelemetryEvent, TelemetryService, NullTelemetryService};
 
 #[cfg(test)]
 mod tests {
