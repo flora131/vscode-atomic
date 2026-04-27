@@ -1,12 +1,19 @@
-//! vscode-ipc — IPC abstraction layer.
+//! vscode-ipc — IPC/RPC abstraction layer.
 //!
-//! Placeholder. Full implementation delivered in task #4 (Building Rust IPC abstraction).
-//! Mirrors cli/src/rpc.rs generic RPC builder and cli/src/async_pipe.rs cross-platform
-//! channel selection.
+//! Mirrors cli/src/rpc.rs + cli/src/json_rpc.rs + cli/src/util/sync.rs.
 
 pub mod channel;
+pub mod dispatcher;
+pub mod framing;
+pub mod sync;
+pub mod transport;
 
-pub use channel::{IpcChannel, IpcMessage};
+// Top-level re-exports for convenience
+pub use channel::{ChannelMessage, IChannel, IServerChannel, IpcMessage, RequestId, WireError};
+pub use dispatcher::{MaybeSync, RpcCaller, RpcDispatcher, RpcMethodBuilder, RpcResponseDispatcher};
+pub use framing::{start_json_rpc, JsonRpcSerializer};
+pub use sync::{new_barrier, Barrier, BarrierOpener, Receivable};
+pub use transport::{DuplexTransport, Transport};
 
 #[cfg(test)]
 mod tests {
