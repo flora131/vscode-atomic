@@ -1,0 +1,5 @@
+# Partition 69 — extensions/types/ (2 files, 21 LOC)
+
+(no external research applicable)
+
+The two files under `extensions/types/` are trivial TypeScript ambient declaration shims. `lib.textEncoder.d.ts` re-exports the types of Node.js built-in `util.TextEncoder` and `util.TextDecoder` as global `var` declarations, and `lib.url.d.ts` does the same for `url.URL`. Both files exist solely to paper over a long-standing TypeScript limitation (microsoft/TypeScript#31535) where the built-in lib types for these globals were missing or inconsistent across browser and Node environments. No external libraries, packages, or third-party APIs are referenced — only Node.js built-in module types that are already bundled with TypeScript's own type definitions. There is therefore no external library documentation that is central to understanding or porting this scope; the entire surface area is covered by the TypeScript standard library and Node.js built-in type declarations, making external research unnecessary.

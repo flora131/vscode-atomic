@@ -1,0 +1,2 @@
+(no external research applicable)
+The `extensions/merge-conflict/` extension is entirely self-contained within the VS Code extension API — it uses only `vscode.*` namespaces (CodeLens, decorations, commands, workspace events, `l10n`) and the single runtime dependency `@vscode/extension-telemetry`; there are no third-party algorithm, parsing, or UI libraries whose external documentation would be relevant to a Tauri/Rust porting analysis.

@@ -1,0 +1,3 @@
+(no external research applicable)
+
+The `extensions/grunt/` partition (2 files, 382 LOC) uses only the VS Code tasks API (`vscode.tasks.registerTaskProvider`) and spawns a `grunt --help` subprocess via Node's built-in child process machinery — neither Grunt's own CLI/plugin documentation nor any third-party library docs are central to understanding or porting this extension, because the entire integration surface is the VS Code extension host API, and the subprocess invocation is a straightforward `grunt --help` shell-out with no Grunt-specific library calls inside the TypeScript source itself.

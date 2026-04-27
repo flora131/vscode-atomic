@@ -1,0 +1,3 @@
+(no external research applicable)
+
+The `extensions/references-view/` extension is a pure consumer of the vscode extension host API. Every capability it exposes — TreeView, TreeDataProvider, executeReferenceProvider, prepareCallHierarchy, prepareTypeHierarchy — is defined entirely within the vscode-dts contract surface and is mediated through the Language Server Protocol. The extension ships no third-party runtime dependencies whose external documentation would be relevant to a Tauri/Rust porting analysis; all porting decisions for this partition are determined by how a Tauri/Rust host would re-implement the vscode extension host API and LSP dispatch layer, not by any external library.

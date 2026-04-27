@@ -1,0 +1,3 @@
+(no external research applicable)
+
+The file in scope — `extensions/esbuild-webview-common.mts` (82 LOC) — is a build-time helper that configures esbuild to bundle webview assets. It operates exclusively at build time, has no runtime coupling to Electron, and contains no platform-specific APIs that would need to change when porting VS Code's host runtime from Electron to Tauri/Rust. Whether the IDE host is Electron or Tauri, a webview bundling script driven by esbuild remains functionally identical; its inputs and outputs (source files in, bundled JS/CSS out) are independent of the desktop runtime layer. No external documentation on Tauri, Rust FFI, or VS Code's core architecture would change any decision about this file, so external research is not warranted here.

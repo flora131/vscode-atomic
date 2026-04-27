@@ -1,0 +1,3 @@
+(no external research applicable)
+
+The `extensions/git-base/` partition declares no external runtime npm dependencies — its `package.json` lists only `@types/node` as a dev dependency (a TypeScript type-definition package with no runtime presence), and all source files (`extension.ts`, `model.ts`, `remoteSource.ts`, `remoteProvider.ts`, `foldingProvider.ts`, `util.ts`, `decorators.ts`, `api/api1.ts`, `api/extension.ts`, `api/git-base.d.ts`) consume only the VS Code extension API (`vscode` module) plus bundled TextMate grammar and language-configuration JSON files — making external library/framework documentation entirely irrelevant to the Tauri/Rust porting research question for this partition.

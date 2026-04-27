@@ -1,0 +1,1 @@
+Partition 26 contains only `eslint.config.js`, a root-level ESLint configuration file (development tooling artifact for code quality enforcement); it has no relevance to porting VS Code's core IDE functionality from TypeScript/Electron to Tauri/Rust.

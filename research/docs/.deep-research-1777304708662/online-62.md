@@ -1,0 +1,3 @@
+(no external research applicable)
+
+The file `extensions/postinstall.mjs` is a 58-line Node.js post-install cleanup script that uses only built-in Node.js standard library modules (`fs`, `path`, and `url`). It reads directory entries and deletes unwanted files from the `typescript` package inside `node_modules`. Because no third-party npm libraries are imported, there are no external library docs to consult; and because the Rust equivalent would rely solely on `std::fs` and `std::path` from the Rust standard library — not on any external crate — no external documentation research is central to porting this file.

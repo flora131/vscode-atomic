@@ -1,0 +1,5 @@
+(no external research applicable)
+
+The assigned scope — `extensions/latex/` — is a grammar-only extension consisting entirely of TextMate grammar files (`.tmLanguage.json`) and JSON language-configuration files. It contains no TypeScript source, no Electron API calls, no Node.js runtime dependencies, and no platform-specific logic of any kind. The `package.json` contributes only `languages` and `grammars` contribution points, both of which are pure declarative data consumed by VS Code's tokenisation engine.
+
+A port of VS Code's core IDE from TypeScript/Electron to Tauri/Rust would have zero impact on this partition: TextMate grammars are a vendor-neutral JSON/XML format already consumed by multiple editors (Neovim via nvim-treesitter fallback, Zed, Helix via Sublime Text import, and others), and Tauri-based IDE projects such as Zed already load `.tmLanguage` grammars without any modification. No external documentation research is needed to characterise the porting effort for this specific file set.

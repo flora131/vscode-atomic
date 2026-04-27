@@ -1,0 +1,1 @@
+No implementation relevant to the porting question. The `extensions/theme-seti/` partition contains only static assets (icon font, PNG, JSON theme manifest) and a Node.js theme-generator script with no TypeScript application code, no Electron bindings, and no platform-specific logic applicable to a TypeScript/Electron → Tauri/Rust port analysis.

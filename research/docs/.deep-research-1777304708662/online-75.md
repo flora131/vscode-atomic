@@ -1,0 +1,3 @@
+(no external research applicable)
+
+The scoped file `src/bootstrap-cli.ts` is an 11-line Node.js bootstrap shim whose sole runtime effect is `delete process.env['VSCODE_CWD']` — a one-liner that removes an environment variable before any other module loads. It has no imports, no third-party dependencies, and no framework-specific API surface. Even in the context of the broader research question (porting VS Code's core IDE functionality from TypeScript/Electron to Tauri/Rust), this particular file contributes nothing architectural: the equivalent in a Tauri/Rust host would simply omit setting or would unset the analogous env var in the Rust process bootstrap code, requiring no external library documentation to understand or replicate.

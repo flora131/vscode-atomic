@@ -1,0 +1,3 @@
+(no external research applicable)
+
+The assigned scope covers only `.devcontainer/` — two files totalling 16 lines of Docker dev container configuration (devcontainer.json, Dockerfile, and associated install/post-create shell scripts). This infrastructure layer describes how to spin up a containerised development environment and is entirely orthogonal to the research question of porting VS Code's core IDE functionality from TypeScript/Electron to Tauri/Rust. No external library documentation for devcontainer tooling, Docker base images, or VS Code remote-container features would contribute meaningful signal to an architectural feasibility analysis of such a port.
