@@ -25,7 +25,10 @@ pub mod scm;
 pub mod terminal;
 pub mod webview;
 
-pub use instantiation::ServiceRegistry;
+pub use instantiation::{
+    InstantiationType, ServiceCollection, ServiceId, ServiceRegistry,
+    ServiceAccessor as DIServiceAccessor,
+};
 pub use registry::{
     Registry, RegistryKey, ServiceAccessor, WorkbenchContribution, WorkbenchContributionRegistry,
     WorkbenchPhase, WORKBENCH_CONTRIBUTIONS,
