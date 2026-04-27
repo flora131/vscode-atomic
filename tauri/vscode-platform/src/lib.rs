@@ -2,6 +2,7 @@
 //!
 //! Placeholder. Concrete service implementations follow in tasks #3, #5, #6.
 
+pub mod editor;
 pub mod instantiation;
 
 pub use instantiation::ServiceRegistry;
