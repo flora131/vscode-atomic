@@ -1,12 +1,18 @@
 //! vscode-base — port of src/vs/base/ primitives.
-//!
-//! Placeholder crate. Concrete implementations will be added in subsequent
-//! tasks (Porting base primitives to Rust, task #2).
 
+pub mod disposable;
 pub mod event;
 pub mod errors;
+pub mod observable;
+pub mod uri;
+pub mod cancellation;
 
 pub use errors::VsCodeError;
+pub use disposable::{Disposable, DisposableStore, DisposableHandle};
+pub use event::{Emitter, EventEmitter, ListenerHandle};
+pub use observable::{IObserver, Observable, Derived, CallbackObserver};
+pub use uri::{VsUri, UriError};
+pub use cancellation::{VsCancellationToken, CancellationTokenSource};
 
 #[cfg(test)]
 mod tests {
