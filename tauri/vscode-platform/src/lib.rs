@@ -19,9 +19,13 @@ pub mod debug;
 pub mod editor;
 pub mod files;
 pub mod instantiation;
+pub mod lifecycle;
+pub mod nls;
 pub mod notebook;
+pub mod quick_input;
 pub mod registry;
 pub mod scm;
+pub mod search;
 pub mod terminal;
 pub mod webview;
 
@@ -30,8 +34,8 @@ pub use instantiation::{
     ServiceAccessor as DIServiceAccessor,
 };
 pub use registry::{
-    Registry, RegistryKey, ServiceAccessor, WorkbenchContribution, WorkbenchContributionRegistry,
-    WorkbenchPhase, WORKBENCH_CONTRIBUTIONS,
+    KnownExtensions, Registry, RegistryKey, ServiceAccessor, WorkbenchContribution,
+    WorkbenchContributionRegistry, WorkbenchPhase, WORKBENCH_CONTRIBUTIONS,
 };
 
 #[cfg(test)]
