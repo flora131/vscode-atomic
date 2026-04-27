@@ -2,6 +2,15 @@ import { defineConfig } from 'vite';
 
 // https://tauri.app/v2/guides/frontend/vite/
 export default defineConfig({
+  // Vitest configuration
+  test: {
+    environment: 'jsdom',
+    globals: true,
+    include: ['src/**/*.test.ts'],
+    // types.test.ts is a compile-time structural type check — no runtime test suites
+    exclude: ['src/__tests__/types.test.ts', 'node_modules/**'],
+  },
+
   // Prevent Vite from obscuring Rust compile errors
   clearScreen: false,
 

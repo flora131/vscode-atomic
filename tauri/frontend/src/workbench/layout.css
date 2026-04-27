@@ -1,0 +1,61 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+/**
+ * layout.css — CSS-grid root workbench layout.
+ *
+ * Mirrors the grid template from src/vs/workbench/browser/layout.ts:
+ *
+ *   title
+ *   activitybar  sidebar  editor
+ *   panel
+ *   statusbar
+ */
+
+.workbench-root {
+	display: grid;
+	grid-template-rows: auto 1fr auto auto;
+	grid-template-columns: auto auto 1fr;
+	grid-template-areas:
+		"title      title    title"
+		"activitybar sidebar editor"
+		"panel      panel    panel"
+		"statusbar  statusbar statusbar";
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+}
+
+[data-part="titlebar"] {
+	grid-area: title;
+	overflow: hidden;
+}
+
+[data-part="activitybar"] {
+	grid-area: activitybar;
+	overflow: hidden;
+}
+
+[data-part="sidebar"] {
+	grid-area: sidebar;
+	overflow: hidden;
+}
+
+[data-part="editor"] {
+	grid-area: editor;
+	overflow: hidden;
+	min-width: 0;
+	min-height: 0;
+}
+
+[data-part="panel"] {
+	grid-area: panel;
+	overflow: hidden;
+}
+
+[data-part="statusbar"] {
+	grid-area: statusbar;
+	overflow: hidden;
+}
