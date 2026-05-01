@@ -1,0 +1,8 @@
+(no external research applicable)
+<justification>
+The `extensions/markdown-math/` extension is a thin TypeScript adapter that bridges VS Code's markdown-it preview pipeline with KaTeX math rendering. Its entire job is two lines: `require('@vscode/markdown-it-katex').default` and `md.use(katex, options)` (src/extension.ts:31-41), plus stylesheet/font copying at build time (esbuild.notebook.mts:14-26). The extension contains no custom parsing or rendering logic of its own.
+
+When porting VS Code core to Tauri/Rust, the WebView component of Tauri still executes JavaScript, so the markdown-it + @vscode/markdown-it-katex + KaTeX rendering stack can be carried over as an unchanged JavaScript bundle. The KaTeX CSS and fonts are static assets served from disk — a Tauri asset-serving mechanism replaces VS Code's `markdown.previewStyles` contribution point, but the assets themselves are identical. The only VS Code-specific coupling is the `extendMarkdownIt` hook (the `markdown.markdownItPlugins` contribution), which would be replaced by a Tauri-side plugin registration IPC call; that replacement is a Tauri architecture concern, not a KaTeX or markdown-it API concern.
+
+Because the JS libraries run unchanged inside the WebView and their public APIs (md.use, options shape) are not themselves changing in the port, consulting the upstream docs for markdown-it, @vscode/markdown-it-katex, or KaTeX is not central to the Tauri/Rust porting work. The porting effort for this partition reduces to replacing one VS Code extension-host registration hook with a Tauri equivalent, with no library-level API changes required.
+</justification>

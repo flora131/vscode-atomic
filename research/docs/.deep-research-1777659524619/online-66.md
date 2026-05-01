@@ -1,0 +1,4 @@
+(no external research applicable)
+<justification>
+The scope — `src/server-cli.ts`, a 30-line Node.js ESM bootstrapper — does nothing more than set up NLS configuration, optionally inject a dev-mode module lookup path, call `bootstrapESM()`, and then dynamically import the real server CLI entry point. Porting this to Tauri/Rust is a pure translation exercise: the Rust equivalent would use `std::process::Command` or Tauri's built-in CLI scaffolding to launch the server binary, set environment variables (`VSCODE_NLS_CONFIG`, `VSCODE_DEV_INJECT_NODE_MODULE_LOOKUP_PATH`), and forward arguments — all of which are covered entirely by the Rust standard library and Tauri's own documentation that is already within the model's training data. No external third-party library documentation is central to this porting task.
+</justification>

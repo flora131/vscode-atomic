@@ -1,0 +1,3 @@
+(no external research applicable)
+
+The `extensions/php/` partition contains only static TextMate grammar and snippet definition files — purely declarative, language-server-independent assets with no TypeScript logic, no Electron API surface, and no Rust interop concerns. Porting this component to a Tauri/Rust host requires no architectural changes beyond ensuring the new host's extension runtime can load TextMate grammars, which is already a solved problem in editors such as Zed (written in Rust) and is independent of any implementation detail unique to this extension. No external research is needed to reach this conclusion because the scope is a single declarative grammar file with no executable code, no native bindings, and no platform-specific dependencies.

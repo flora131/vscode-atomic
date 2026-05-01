@@ -1,0 +1,3 @@
+(no external research applicable)
+
+`extensions/postinstall.mjs` is a self-contained Node.js maintenance script (59 lines) that uses only Node's built-in standard-library modules — `fs`, `path`, and `url` — to delete unwanted files from `node_modules/typescript` after installation. It calls `fs.readdirSync`, `fs.rmSync`, and `fs.unlinkSync` directly, has no `import` or `require` of any third-party package, and contains no logic that would be ported to Rust or Tauri; it is purely a build-time housekeeping artifact whose equivalent in a Tauri/Rust project would either be a Cargo build script, a shell/Python script, or simply omitted because Cargo does not install a `typescript` package at all. No external library documentation is relevant to porting this file.

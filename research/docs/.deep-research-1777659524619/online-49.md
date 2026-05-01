@@ -1,0 +1,3 @@
+(no external research applicable)
+
+The `extensions/jake/` extension (2 files, 357 LOC) declares zero runtime dependencies in its `package.json` — the `dependencies` field is an empty object — and its sole `devDependency` is `@types/node`, a compile-time TypeScript type package with no bearing on a Tauri/Rust port. The source file `src/main.ts` imports only Node.js built-in modules (`path`, `fs`, `child_process`) and the VS Code extension host API (`vscode`); neither category constitutes an external third-party library that warrants targeted online research in the context of porting to Tauri/Rust.

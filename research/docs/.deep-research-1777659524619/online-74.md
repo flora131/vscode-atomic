@@ -1,0 +1,3 @@
+(no external research applicable)
+
+The scope is limited to `extensions/latex/`, which is a pure TextMate grammar extension containing only static JSON/PLIST grammar files and language configuration — no runtime code, no library dependencies, and no Tauri/Rust or Electron APIs to port. Porting VS Code's core IDE from TypeScript/Electron to Tauri/Rust is a deeply architectural concern, but the `extensions/latex/` partition consists solely of declarative grammar definitions that are consumed by whichever host editor loads them; they carry no platform coupling and require no changes regardless of the underlying runtime. External library documentation is therefore not relevant to this scope.

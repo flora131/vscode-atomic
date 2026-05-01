@@ -1,0 +1,3 @@
+(no external research applicable)
+
+The `extensions/typescript-basics/` partition contains only static TextMate grammar files (TypeScript.tmLanguage.json, TypeScriptReact.tmLanguage.json) and snippet definitions — there is no runtime TypeScript or Rust code, no Node.js APIs, no Electron or Tauri bindings, and no language server logic involved. These JSON-based grammar and snippet files are editor-agnostic declarative data that any editor supporting TextMate grammars (including those built on Tauri) can consume directly without modification, so no porting work or external research is needed for this partition.

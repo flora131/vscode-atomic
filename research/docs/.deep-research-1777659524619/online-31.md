@@ -1,0 +1,3 @@
+(no external research applicable)
+
+The `extensions/media-preview/` scope relies solely on VS Code's built-in WebviewPanel and CustomReadonlyEditorProvider APIs plus standard HTML5 media elements (img, audio, video tags) — there are no third-party libraries whose external documentation would be central to answering the Tauri/Rust porting question. The porting analysis here is purely about mapping VS Code's webview IPC and editor provider contracts to Tauri's webview and IPC primitives, which is covered by the codebase itself and general Tauri documentation already captured elsewhere in the research partitions.

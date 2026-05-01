@@ -1,0 +1,3 @@
+(no external research applicable)
+
+`src/bootstrap-node.ts` depends exclusively on Node.js built-in modules (`node:path`, `node:fs`, `node:module`) and the global `process` object; it references no external npm libraries or third-party frameworks, so no external library or framework documentation is central to assessing the porting effort for this file — the porting analysis reduces entirely to mapping Node.js core APIs (`process.env`, `process.platform`, `fs.existsSync`, `Module._resolveLookupPaths`) to their Rust/Tauri equivalents in the standard library (`std::env`, `std::fs`, `std::process`), which are built-in to Rust and require no additional framework doc lookup.

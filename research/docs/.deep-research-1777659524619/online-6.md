@@ -1,0 +1,2 @@
+(no external research applicable)
+The `src/vscode-dts/` partition contains only TypeScript `.d.ts` type declaration files that define VS Code's public extension API surface — these are pure type definitions with no runtime code, no third-party library imports, and no dependencies on external frameworks; porting considerations for this partition are entirely about mapping TypeScript interface/type constructs to Rust equivalents, which requires no external library documentation lookup.
