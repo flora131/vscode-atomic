@@ -69,6 +69,8 @@
     "stylelint": "node build/stylelint.ts",
     "playwright-install": "npm exec playwright install",
     "compile-build": "npm run gulp compile-build-with-mangling",
+    "package:tauri": "node scripts/tauri-package.mjs --execute --flavor code-tauri",
+    "package:tauri:dry-run": "node scripts/tauri-package.mjs --flavor code-tauri",
     "compile-extensions-build": "npm run gulp compile-extensions-build",
     "minify-vscode": "npm run gulp minify-vscode",
     "minify-vscode-reh": "npm run gulp minify-vscode-reh",
