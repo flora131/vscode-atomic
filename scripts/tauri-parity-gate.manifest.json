@@ -1,0 +1,283 @@
+{
+	"schemaVersion": 1,
+	"currentState": "Scaffold",
+	"migrationStateMachine": [
+		"Scaffold",
+		"RuntimeBuildGreen",
+		"RealWorkbenchBootGreen",
+		"CoreServicesParityGreen",
+		"ExtensionApiParityGreen",
+		"BuiltInExtensionParityGreen",
+		"SignedPackageGreen",
+		"ReleaseCandidate"
+	],
+	"releaseValidation": {
+		"owner": "release-engineering",
+		"command": "node scripts/tauri-parity-gate.mjs && CODE_TAURI_REQUIRE_REAL_WORKBENCH=1 CODE_TAURI_WORKBENCH_PATH=out/vs/code/browser/workbench/workbench.html npm run smoketest:tauri:workbench && CODE_TAURI_REQUIRE_REAL_WORKBENCH=1 CODE_TAURI_WORKBENCH_PATH=out/vs/code/browser/workbench/workbench.html npm run package:tauri:release-validate",
+		"lastCiResult": {
+			"status": "fail",
+			"runName": "not-yet-release-validation",
+			"ciRunId": "not-yet-run",
+			"ciArtifactUrl": null,
+			"observedAt": "2026-05-11",
+			"summary": "Blocked until ReleaseCandidate; scaffold fallback forbidden for release validation."
+		},
+		"permitsScaffoldFallback": false,
+		"allowedWorkbenchSources": [
+			"CODE_TAURI_WORKBENCH_PATH",
+			"out/vs/code/browser/workbench/workbench.html"
+		],
+		"forbiddenWorkbenchSources": [
+			"src-tauri/www/index.html"
+		]
+	},
+	"rustLintGate": {
+		"owner": "tauri-runtime",
+		"command": "cargo clippy --manifest-path src-tauri/Cargo.toml --no-default-features -- -D warnings",
+		"lastCiResult": {
+			"status": "fail",
+			"runName": "Tauri Rust lint gate",
+			"ciRunId": "not-yet-run",
+			"ciArtifactUrl": null,
+			"observedAt": "2026-05-11",
+			"summary": "Blocked until cargo clippy passes with warnings denied. Migration remains Scaffold."
+		}
+	},
+	"gates": [
+		{
+			"state": "Scaffold",
+			"owner": "tauri-runtime",
+			"command": "npm run smoketest:tauri",
+			"lastCiResult": {
+				"status": "pass",
+				"runName": "Tauri source smoke",
+				"ciRunId": "tauri-source-smoke-2026-05-11",
+				"ciArtifactUrl": "https://github.com/microsoft/vscode/actions/runs/tauri-source-smoke-2026-05-11",
+				"observedAt": "2026-05-11",
+				"summary": "Static scaffold and source smoke guards present."
+			}
+		},
+		{
+			"state": "RuntimeBuildGreen",
+			"owner": "tauri-runtime",
+			"command": "npm run compile-build && cargo build --manifest-path src-tauri/Cargo.toml --features runtime",
+			"lastCiResult": {
+				"status": "fail",
+				"runName": "Build Tauri runtime",
+				"ciRunId": "not-yet-run",
+				"ciArtifactUrl": null,
+				"observedAt": "2026-05-11",
+				"summary": "Not promoted from Scaffold until clean CI runtime build is recorded."
+			}
+		},
+		{
+			"state": "RealWorkbenchBootGreen",
+			"owner": "workbench-platform",
+			"command": "CODE_TAURI_REQUIRE_REAL_WORKBENCH=1 CODE_TAURI_WORKBENCH_PATH=out/vs/code/browser/workbench/workbench.html npm run smoketest:tauri:workbench",
+			"lastCiResult": {
+				"status": "fail",
+				"runName": "Tauri real workbench boot smoke",
+				"ciRunId": "not-yet-run",
+				"ciArtifactUrl": null,
+				"observedAt": "2026-05-11",
+				"summary": "Blocked until real workbench boot passes without src-tauri/www/index.html."
+			}
+		},
+		{
+			"state": "CoreServicesParityGreen",
+			"owner": "platform-services",
+			"command": "npm run smoketest:tauri && npm run test-node -- --runGlob src/vs/platform/tauri/test/common/*.test.ts",
+			"lastCiResult": {
+				"status": "fail",
+				"runName": "Tauri core services parity",
+				"ciRunId": "not-yet-run",
+				"ciArtifactUrl": null,
+				"observedAt": "2026-05-11",
+				"summary": "Blocked until file, watcher, channel, terminal, and service parity suites pass."
+			}
+		},
+		{
+			"state": "ExtensionApiParityGreen",
+			"owner": "extension-host",
+			"command": "CODE_TAURI_REQUIRE_REAL_WORKBENCH=1 CODE_TAURI_WORKBENCH_PATH=out/vs/code/browser/workbench/workbench.html npm run test-extension:tauri-sidecar:execute && npm run smoketest:tauri",
+			"lastCiResult": {
+				"status": "fail",
+				"runName": "Tauri extension API parity",
+				"ciRunId": "not-yet-run",
+				"ciArtifactUrl": null,
+				"observedAt": "2026-05-11",
+				"summary": "Blocked until extension host bridge, lifecycle, API, and proposed API suites pass."
+			}
+		},
+		{
+			"state": "BuiltInExtensionParityGreen",
+			"owner": "builtin-extensions",
+			"command": "npm run smoketest:tauri && npm run smoketest:tauri:builtin-extensions && node build/lib/builtInExtensions.ts",
+			"lastCiResult": {
+				"status": "fail",
+				"runName": "Tauri built-in extension parity",
+				"ciRunId": "not-yet-run",
+				"ciArtifactUrl": null,
+				"observedAt": "2026-05-11",
+				"summary": "Blocked until deterministic built-in extension preflight plus Git, TypeScript/tsserver, debug, terminal, notebooks, auth, tunnels, Copilot-relevant API, and file I/O parity pass."
+			},
+			"builtInExtensionParity": {
+				"areas": [
+					{
+						"area": "git",
+						"owner": "builtin-extensions",
+						"command": "npm run smoketest:tauri:builtin-extensions -- --area git",
+						"status": "fail",
+						"summary": "Blocked until Git built-in extension deterministic smoke passes on all release platforms.",
+						"platformResults": [
+							{ "platform": "macos", "status": "fail", "command": "npm run smoketest:tauri:builtin-extensions", "summary": "Not yet run on macOS CI." },
+							{ "platform": "windows", "status": "fail", "command": "npm run smoketest:tauri:builtin-extensions", "summary": "Not yet run on Windows CI." },
+							{ "platform": "linux", "status": "fail", "command": "npm run smoketest:tauri:builtin-extensions", "summary": "Not yet run on Linux CI." }
+						]
+					},
+					{
+						"area": "typescriptTsserver",
+						"owner": "builtin-extensions",
+						"command": "npm run smoketest:tauri:builtin-extensions -- --area typescriptTsserver",
+						"status": "fail",
+						"summary": "Blocked until TypeScript and tsserver built-in extension deterministic smoke passes on all release platforms.",
+						"platformResults": [
+							{ "platform": "macos", "status": "fail", "command": "npm run smoketest:tauri:builtin-extensions", "summary": "Not yet run on macOS CI." },
+							{ "platform": "windows", "status": "fail", "command": "npm run smoketest:tauri:builtin-extensions", "summary": "Not yet run on Windows CI." },
+							{ "platform": "linux", "status": "fail", "command": "npm run smoketest:tauri:builtin-extensions", "summary": "Not yet run on Linux CI." }
+						]
+					},
+					{
+						"area": "debug",
+						"owner": "builtin-extensions",
+						"command": "npm run smoketest:tauri:builtin-extensions -- --area debug",
+						"status": "fail",
+						"summary": "Blocked until debug auto-launch built-in extension deterministic smoke passes on all release platforms.",
+						"platformResults": [
+							{ "platform": "macos", "status": "fail", "command": "npm run smoketest:tauri:builtin-extensions", "summary": "Not yet run on macOS CI." },
+							{ "platform": "windows", "status": "fail", "command": "npm run smoketest:tauri:builtin-extensions", "summary": "Not yet run on Windows CI." },
+							{ "platform": "linux", "status": "fail", "command": "npm run smoketest:tauri:builtin-extensions", "summary": "Not yet run on Linux CI." }
+						]
+					},
+					{
+						"area": "terminal",
+						"owner": "builtin-extensions",
+						"command": "npm run smoketest:tauri:builtin-extensions -- --area terminal",
+						"status": "fail",
+						"summary": "Blocked until terminal-related built-in extension API smoke passes on all release platforms.",
+						"platformResults": [
+							{ "platform": "macos", "status": "fail", "command": "npm run smoketest:tauri:builtin-extensions", "summary": "Not yet run on macOS CI." },
+							{ "platform": "windows", "status": "fail", "command": "npm run smoketest:tauri:builtin-extensions", "summary": "Not yet run on Windows CI." },
+							{ "platform": "linux", "status": "fail", "command": "npm run smoketest:tauri:builtin-extensions", "summary": "Not yet run on Linux CI." }
+						]
+					},
+					{
+						"area": "notebooks",
+						"owner": "builtin-extensions",
+						"command": "npm run smoketest:tauri:builtin-extensions -- --area notebooks",
+						"status": "fail",
+						"summary": "Blocked until IPYNB and notebook renderer built-in extension deterministic smoke passes on all release platforms.",
+						"platformResults": [
+							{ "platform": "macos", "status": "fail", "command": "npm run smoketest:tauri:builtin-extensions", "summary": "Not yet run on macOS CI." },
+							{ "platform": "windows", "status": "fail", "command": "npm run smoketest:tauri:builtin-extensions", "summary": "Not yet run on Windows CI." },
+							{ "platform": "linux", "status": "fail", "command": "npm run smoketest:tauri:builtin-extensions", "summary": "Not yet run on Linux CI." }
+						]
+					},
+					{
+						"area": "auth",
+						"owner": "builtin-extensions",
+						"command": "npm run smoketest:tauri:builtin-extensions -- --area auth",
+						"status": "fail",
+						"summary": "Blocked until authentication built-in extension deterministic smoke passes on all release platforms.",
+						"platformResults": [
+							{ "platform": "macos", "status": "fail", "command": "npm run smoketest:tauri:builtin-extensions", "summary": "Not yet run on macOS CI." },
+							{ "platform": "windows", "status": "fail", "command": "npm run smoketest:tauri:builtin-extensions", "summary": "Not yet run on Windows CI." },
+							{ "platform": "linux", "status": "fail", "command": "npm run smoketest:tauri:builtin-extensions", "summary": "Not yet run on Linux CI." }
+						]
+					},
+					{
+						"area": "tunnels",
+						"owner": "builtin-extensions",
+						"command": "npm run smoketest:tauri:builtin-extensions -- --area tunnels",
+						"status": "fail",
+						"summary": "Blocked until tunnel forwarding built-in extension deterministic smoke passes on all release platforms.",
+						"platformResults": [
+							{ "platform": "macos", "status": "fail", "command": "npm run smoketest:tauri:builtin-extensions", "summary": "Not yet run on macOS CI." },
+							{ "platform": "windows", "status": "fail", "command": "npm run smoketest:tauri:builtin-extensions", "summary": "Not yet run on Windows CI." },
+							{ "platform": "linux", "status": "fail", "command": "npm run smoketest:tauri:builtin-extensions", "summary": "Not yet run on Linux CI." }
+						]
+					},
+					{
+						"area": "copilotApi",
+						"owner": "builtin-extensions",
+						"command": "npm run smoketest:tauri:builtin-extensions -- --area copilotApi",
+						"status": "fail",
+						"summary": "Blocked until Copilot-relevant API deterministic smoke passes on all release platforms.",
+						"platformResults": [
+							{ "platform": "macos", "status": "fail", "command": "npm run smoketest:tauri:builtin-extensions", "summary": "Not yet run on macOS CI." },
+							{ "platform": "windows", "status": "fail", "command": "npm run smoketest:tauri:builtin-extensions", "summary": "Not yet run on Windows CI." },
+							{ "platform": "linux", "status": "fail", "command": "npm run smoketest:tauri:builtin-extensions", "summary": "Not yet run on Linux CI." }
+						]
+					}
+				]
+			}
+		},
+		{
+			"state": "SignedPackageGreen",
+			"owner": "release-engineering",
+			"command": "npm run package:tauri -- --target <rust-target-triple> --bundles <bundle-list>",
+			"signedPackageEvidence": {
+				"artifacts": [
+					{
+						"os": "macos",
+						"artifactPath": "ci-artifacts/tauri/macos/VS Code Atomic.dmg",
+						"signatureStatus": "fail",
+						"notarizationStatus": "fail",
+						"installStatus": "fail",
+						"launchStatus": "fail",
+						"osCheckCommand": "codesign --verify --deep --strict <app> && spctl --assess --type execute <app> && hdiutil verify <dmg> && hdiutil attach <dmg> && cp -R <mounted-app> /Applications/ && open -W -a \"VS Code Atomic\" --args --version"
+					},
+					{
+						"os": "windows",
+						"artifactPath": "ci-artifacts/tauri/windows/VS Code Atomic Setup.exe",
+						"signatureStatus": "fail",
+						"notarizationStatus": "not_required",
+						"installStatus": "fail",
+						"launchStatus": "fail",
+						"osCheckCommand": "Get-AuthenticodeSignature <installer>; Start-Process <installer> -ArgumentList /S -Wait; & \"$env:LOCALAPPDATA\\Programs\\VS Code Atomic\\VS Code Atomic.exe\" --version"
+					},
+					{
+						"os": "linux",
+						"artifactPath": "ci-artifacts/tauri/linux/vs-code-atomic.AppImage",
+						"signatureStatus": "fail",
+						"notarizationStatus": "not_required",
+						"installStatus": "fail",
+						"launchStatus": "fail",
+						"osCheckCommand": "gpg --verify <artifact>.sig <artifact> && chmod +x <artifact> && <artifact> --appimage-extract-and-run --version"
+					}
+				]
+			},
+			"lastCiResult": {
+				"status": "fail",
+				"runName": "Tauri signed package validation",
+				"ciRunId": "not-yet-run",
+				"ciArtifactUrl": null,
+				"observedAt": "2026-05-11",
+				"summary": "Blocked until signed, notarized where required, installable, launchable artifacts pass."
+			}
+		},
+		{
+			"state": "ReleaseCandidate",
+			"owner": "release-engineering",
+			"command": "node scripts/tauri-parity-gate.mjs && CODE_TAURI_REQUIRE_REAL_WORKBENCH=1 CODE_TAURI_WORKBENCH_PATH=out/vs/code/browser/workbench/workbench.html npm run smoketest:tauri:workbench && CODE_TAURI_REQUIRE_REAL_WORKBENCH=1 CODE_TAURI_WORKBENCH_PATH=out/vs/code/browser/workbench/workbench.html npm run package:tauri:release-validate && CODE_TAURI_REQUIRE_REAL_WORKBENCH=1 CODE_TAURI_WORKBENCH_PATH=out/vs/code/browser/workbench/workbench.html npm run package:tauri -- --target <rust-target-triple> --bundles <bundle-list>",
+			"lastCiResult": {
+				"status": "fail",
+				"runName": "Tauri release candidate validation",
+				"ciRunId": "not-yet-run",
+				"ciArtifactUrl": null,
+				"observedAt": "2026-05-11",
+				"summary": "Blocked until every prior parity gate is green and release sign-off exists."
+			}
+		}
+	]
+}

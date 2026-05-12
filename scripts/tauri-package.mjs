@@ -135,20 +135,45 @@ function emitPackageMarker(marker, context = {}) {
 		unit: 'count',
 		context: {
 			flavor,
-			mode: execute ? 'execute' : releaseValidate ? 'release-validate' : 'dry-run',
+			mode: packageMode(),
 			...context,
 		},
 	})}`);
 }
 
+function packageMode() {
+	if (execute) {
+		return 'execute';
+	}
+
+	if (releaseValidate) {
+		return 'release-validate';
+	}
+
+	return 'dry-run';
+}
+
 function commandMarkerContext(command, commandArgs) {
 	return {
 		command: [command, ...commandArgs].join(' '),
-		step: isCompileBuildStep(command, commandArgs) ? 'frontend'
-			: isRustBuildStep(command, commandArgs) ? 'rust-check'
-				: isTauriBuildStep(command, commandArgs) ? 'tauri-build'
-					: 'unknown',
+		step: commandStep(command, commandArgs),
 	};
+}
+
+function commandStep(command, commandArgs) {
+	if (isCompileBuildStep(command, commandArgs)) {
+		return 'frontend';
+	}
+
+	if (isRustBuildStep(command, commandArgs)) {
+		return 'rust-check';
+	}
+
+	if (isTauriBuildStep(command, commandArgs)) {
+		return 'tauri-build';
+	}
+
+	return 'unknown';
 }
 
 function resolveFrontendDist(config) {
