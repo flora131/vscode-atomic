@@ -1,0 +1,19 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "VS Code Atomic",
+  "version": "0.1.0",
+  "identifier": "dev.vscode.atomic",
+  "build": {
+    "frontendDist": "www"
+  },
+  "app": {
+    "windows": [],
+    "security": {
+      "csp": "default-src 'self' vscode-file: vscode-webview: asset:; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: vscode-file: vscode-webview:; font-src 'self' data:; connect-src 'self' ipc: http://127.0.0.1:* ws://127.0.0.1:*; worker-src 'self' blob:; frame-src 'self' vscode-webview:; frame-ancestors 'none'; base-uri 'none'; object-src 'none'"
+    }
+  },
+  "bundle": {
+    "active": false,
+    "targets": "all"
+  }
+}

@@ -1,0 +1,37 @@
+[package]
+name = "vscode-atomic-tauri"
+version = "0.1.0"
+description = "Minimal Tauri runtime scaffold for VS Code Atomic"
+authors = ["Microsoft Corporation"]
+license = "MIT"
+repository = "https://github.com/microsoft/vscode"
+edition = "2021"
+rust-version = "1.77"
+
+[features]
+default = ["runtime", "terminal-pty"]
+auth-tunnels = ["dep:cli"]
+runtime = ["auth-tunnels", "dep:tauri"]
+terminal-pty = ["dep:portable-pty"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+async-trait = "0.1"
+base64 = "0.22"
+cli = { package = "code-cli", path = "../cli", default-features = false, optional = true }
+getrandom = "0.2"
+notify = "6"
+portable-pty = { version = "0.8", optional = true }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tauri = { version = "2", features = [], optional = true }
+tokio = { version = "1", features = ["fs", "io-util", "macros", "rt", "sync"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
+
+[patch.crates-io]
+russh = { git = "https://github.com/microsoft/vscode-russh", branch = "main" }
+russh-cryptovec = { git = "https://github.com/microsoft/vscode-russh", branch = "main" }
+russh-keys = { git = "https://github.com/microsoft/vscode-russh", branch = "main" }
