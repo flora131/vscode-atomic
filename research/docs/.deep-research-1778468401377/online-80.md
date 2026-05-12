@@ -1,0 +1,2 @@
+(no external research applicable)
+The scoped file is a 5-line re-export shim (`gulpfile.mjs`) that only delegates to `build/gulpfile.ts`; it introduces no external libraries or runtime dependencies of its own, so there is nothing to research online in the context of a Tauri/Rust port — the shim itself will simply be dropped or replaced by whatever Rust/Cargo build entry point replaces the Gulp pipeline.

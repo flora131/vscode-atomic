@@ -1,0 +1,1 @@
+SKIP: extensions/markdown-math/ (KaTeX math rendering) is scoped entirely to the Markdown preview extension host layer and has no relevance to porting the core VS Code IDE from TypeScript/Electron to Tauri/Rust; no online research is applicable.

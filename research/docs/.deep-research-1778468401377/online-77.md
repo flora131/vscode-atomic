@@ -1,0 +1,2 @@
+(no external research applicable)
+The scope covers only `extensions/rust/` (1 file, 9 LOC), which is a static TextMate grammar/snippets definition sourced from the microsoft/vscode-mssql upstream with no external runtime libraries — no web-fetchable documentation is needed to port this to Tauri/Rust, as TextMate grammar files are editor-host-agnostic and require no changes when moving from Electron to Tauri.

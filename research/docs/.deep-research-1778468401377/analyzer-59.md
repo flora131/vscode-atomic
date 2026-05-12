@@ -1,0 +1,1 @@
+SKIP: extensions/php/ contains only a PHP TextMate grammar (php.tmLanguage.json), language configuration (language-configuration.json), and snippets (snippets/php.json) — no implementation logic relevant to a Tauri/Rust port of VS Code's core IDE functionality.

@@ -1,0 +1,3 @@
+(no external research applicable)
+
+`src/bootstrap-node.ts` uses only Node.js built-ins (`node:path`, `node:fs`, `node:module`, `process` globals) and internal VS Code types; all four concerns it covers — SIGPIPE handling via `process.on`, cwd setup via `process.chdir`/`process.cwd`, Node module lookup path manipulation via `Module._resolveLookupPaths`/`Module._nodeModulePaths`, and portable mode via `fs.existsSync` and env-var writes — are thoroughly documented in the stable Node.js API reference that is already part of any engineer's baseline knowledge, so no targeted online research is warranted for a Tauri/Rust porting analysis of this file.

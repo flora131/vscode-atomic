@@ -1,0 +1,9 @@
+(no external research applicable)
+
+**Justification:**
+
+The `extensions/merge-conflict/` extension (13 files, 1,463 LOC) has exactly one external runtime dependency: `@vscode/extension-telemetry ^0.9.8`. Examining the source files reveals that this dependency is used in a shallow and peripheral manner — `TelemetryReporter` is instantiated once in `services.ts` using the `aiKey` from `package.json`, and `sendTelemetryEvent` is called in two places (`documentTracker.ts` line 139 and `documentMergeConflict.ts` line 45) to fire simple named events with numeric measurements. There is no deep API surface being exercised: no custom transports, no sampling configuration, no structured schema registration, and no browser-vs-node branching within the extension code itself.
+
+When porting this extension from a TypeScript/Electron host to a Tauri/Rust host, the telemetry calls are an infrastructural cross-cutting concern that will be replaced wholesale — either dropped, stubbed, or forwarded to whatever telemetry sink the Tauri application provides. The `@vscode/extension-telemetry` package is tightly coupled to the VS Code extension host runtime (it wraps Application Insights and relies on `vscode.env` metadata); it has no role in the ported codebase. Fetching its documentation would provide no actionable guidance for the porting work.
+
+The dominant porting challenge for this extension is translating the VS Code host API surface — `vscode.CodeLens`, `vscode.TextEditorDecorationType`, `vscode.workspace`, `vscode.window`, and the `vscode.TextDocument` / `vscode.Range` object model — into equivalent Tauri/Rust constructs. Those are first-party VS Code APIs, not external library documentation, and they are addressed by the broader port design rather than by fetching documentation for `@vscode/extension-telemetry`. No external library documentation fetch is warranted for this partition.

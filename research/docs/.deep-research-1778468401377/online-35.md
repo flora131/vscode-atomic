@@ -1,0 +1,3 @@
+(no external research applicable)
+
+The dependencies identified in `extensions/mermaid-chat-features/` — `mermaid ^11.12.3`, `dompurify ^3.4.1`, and `@vscode/codicons` — are diagram-rendering and sanitization libraries used exclusively within a chat-output extension for displaying Mermaid diagrams in VS Code's webview panel. None of these libraries are involved in VS Code's core platform concerns such as the extension host process, IPC communication, workbench shell, file system abstraction, or window management that would be central to a Tauri/Rust port; they operate at the UI/rendering layer of a single optional extension and have no bearing on the TypeScript-to-Rust platform migration work.

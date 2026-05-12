@@ -1,0 +1,3 @@
+(no external research applicable)
+
+The `extensions/media-preview/` scope (17 files, 1,553 LOC) lists only two runtime dependencies — `@vscode/extension-telemetry` (event instrumentation, not load-bearing for porting decisions) and `vscode-uri` (a thin URI normalization utility with no porting-relevant API surface) — and all meaningful functionality is implemented against VS Code's own extension API (`CustomReadonlyEditorProvider`, `WebviewPanel`, `postMessage`, `asWebviewUri`, CSP headers, status-bar entries, and similar built-ins), none of which is documented by an external third-party library whose documentation would need to be fetched to guide a Tauri/Rust port.

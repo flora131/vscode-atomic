@@ -1,0 +1,3 @@
+(no external research applicable)
+
+The scope under review — `extensions/esbuild-extension-common.mts` — is a 50-line esbuild build script used to bundle VS Code extensions for Node or browser targets. Esbuild is a JavaScript/TypeScript bundling tool that operates at build time. It has no architectural connection to the question of porting VS Code's core IDE from TypeScript/Electron to Tauri/Rust. That porting question concerns the native application shell (window management, IPC, OS integration, process model, renderer/backend split), all of which are Electron vs. Tauri/WebView2 concerns entirely independent of how JavaScript extension bundles are compiled. Researching esbuild documentation would contribute nothing to understanding the porting effort for this scope.

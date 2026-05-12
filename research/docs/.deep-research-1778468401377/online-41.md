@@ -1,0 +1,3 @@
+(no external research applicable)
+
+The `search-result` extension (`extensions/search-result/`) has no external runtime library dependencies beyond the VS Code extension API itself; its only dev dependency is `@types/node` for type declarations, and esbuild is used solely as a build tool. Because all functionality — document symbols, completion providers, navigation, and link resolution — is implemented purely against the `vscode` namespace API with no third-party library surface, there is no external library documentation that is central to answering the Tauri/Rust porting question for this partition.
