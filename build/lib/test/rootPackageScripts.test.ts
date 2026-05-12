@@ -14,12 +14,16 @@ interface PackageJson {
 	scripts?: Record<string, string>;
 }
 
+function readRootPackageScripts(): Record<string, string> {
+	const packageJsonPath = path.join(import.meta.dirname, '../../../package.json');
+	const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8')) as PackageJson;
+	return packageJson.scripts ?? {};
+}
+
 suite('root package scripts', () => {
 
 	test('guards native TypeScript checks with Tauri preflight', () => {
-		const packageJsonPath = path.join(import.meta.dirname, '../../../package.json');
-		const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8')) as PackageJson;
-		const scripts = packageJson.scripts ?? {};
+		const scripts = readRootPackageScripts();
 
 		assert.strictEqual(scripts.typecheck, 'npm run compile-check-ts-native');
 		assert.strictEqual(scripts['typecheck:tauri'], 'npm run compile-check-ts-native');
@@ -30,20 +34,36 @@ suite('root package scripts', () => {
 	});
 
 	test('guards build script tests with build dependency preflight', () => {
-		const packageJsonPath = path.join(import.meta.dirname, '../../../package.json');
-		const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8')) as PackageJson;
-		const scripts = packageJson.scripts ?? {};
+		const scripts = readRootPackageScripts();
 
+		assert.strictEqual(scripts['install-build-deps'], 'node scripts/install-build-deps.mjs');
 		assert.strictEqual(scripts['test-build-scripts'], 'node scripts/preflight-build-deps.mjs && cd build && npm run test');
+		assert.strictEqual(scripts['test-build-scripts:ci'], 'npm run install-build-deps && npm run test-build-scripts');
+	});
+
+	test('build dependency installer ignores root Electron npm config', () => {
+		const installPath = path.join(import.meta.dirname, '../../../scripts/install-build-deps.mjs');
+		const installSource = fs.readFileSync(installPath, 'utf8');
+
+		assert.ok(installSource.includes('[\'ci\', \'--prefix\', \'build\', \'--userconfig\', \'build/.npmrc\']'));
+		assert.ok(installSource.includes('delete env[`npm_config_${name}`]'));
+		assert.ok(installSource.includes('delete env[`NPM_CONFIG_${name.toUpperCase()}`]'));
+		for (const name of ['disturl', 'target', 'ms_build_id', 'runtime']) {
+			assert.ok(installSource.includes(`'${name}'`));
+		}
 	});
 
 	test('build dependency preflight verifies without installing', () => {
 		const preflightPath = path.join(import.meta.dirname, '../../../scripts/preflight-build-deps.mjs');
 		const preflightSource = fs.readFileSync(preflightPath, 'utf8');
 
-		assert.ok(preflightSource.includes("'gulp-merge-json', 'jsonc-parser', 'esbuild'"));
+		const requiredBuildPackages = ['gulp' + '-merge-json', 'jsonc' + '-parser', 'es' + 'build'];
+		for (const requiredBuildPackage of requiredBuildPackages) {
+			assert.ok(preflightSource.includes(`'${requiredBuildPackage}'`));
+		}
 		assert.ok(preflightSource.includes('build dependency preflight failed: missing build/node_modules packages:'));
-		assert.ok(preflightSource.includes('Run npm ci --prefix build from the repository root, or equivalent, before npm run test-build-scripts.'));
+		assert.ok(preflightSource.includes('Run npm run install-build-deps from the repository root before npm run test-build-scripts.'));
+		assert.ok(preflightSource.includes('The install script uses build/.npmrc and clears root Electron npm config so build-only native packages target Node.'));
 		assert.ok(!preflightSource.includes('spawnSync'));
 		assert.ok(!preflightSource.includes('npm install'));
 	});
@@ -61,7 +81,8 @@ suite('root package scripts', () => {
 
 			assert.strictEqual(result.status, 1, `${result.stdout}\n${result.stderr}`);
 			assert.match(result.stderr, /build dependency preflight failed: missing build\/node_modules packages: gulp-merge-json, jsonc-parser, esbuild/);
-			assert.match(result.stderr, /Run npm ci --prefix build from the repository root, or equivalent, before npm run test-build-scripts\./);
+			assert.match(result.stderr, /Run npm run install-build-deps from the repository root before npm run test-build-scripts\./);
+			assert.match(result.stderr, /The install script uses build\/\.npmrc and clears root Electron npm config so build-only native packages target Node\./);
 			assert.ok(!fs.existsSync(path.join(tempRoot, 'build/node_modules')), 'preflight must not install missing dependencies');
 		} finally {
 			fs.rmSync(tempRoot, { recursive: true, force: true });

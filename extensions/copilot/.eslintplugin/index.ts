@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 import type { LooseRuleDefinition } from '@typescript-eslint/utils/ts-eslint';
-import * as glob from 'glob';
+import glob from 'glob';
 import path from 'path';
 
 // Re-export all .ts files as rules
